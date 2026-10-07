@@ -1,0 +1,40 @@
+# CI Pipeline — Containerized Calculator API
+# Runs on every push and pull request to the main branch
+
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Install → Test → Build Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python 3.12
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Step 3: Install dependencies from requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Step 4: Run all pytest tests
+      - name: Run tests
+        run: pytest tests/ -v
+
+      # Step 5: Build the Docker image (does not push to any registry)
+      - name: Build Docker image
+        run: docker build -t calculator-api .

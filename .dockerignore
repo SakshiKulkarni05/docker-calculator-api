@@ -1,0 +1,23 @@
+# Virtual environment — not needed inside Docker
+venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test cache
+.pytest_cache/
+
+# Git
+.git/
+.gitignore
+
+# Docker itself
+Dockerfile
+.dockerignore
+
+# Test files — not needed in production image
+tests/
+conftest.py
