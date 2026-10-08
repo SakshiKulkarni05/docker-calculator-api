@@ -1,0 +1,29 @@
+# Kubernetes Deployment — Calculator API
+# Tells Kubernetes: "Always keep 1 copy of this Pod running"
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-api          # Name of this Deployment
+  labels:
+    app: calculator-api         # Label used to identify this app
+
+spec:
+  replicas: 1                   # Run exactly 1 Pod
+
+  selector:
+    matchLabels:
+      app: calculator-api       # Match Pods with this label
+
+  template:                     # Blueprint for each Pod
+    metadata:
+      labels:
+        app: calculator-api     # Label applied to each Pod
+
+    spec:
+      containers:
+        - name: calculator-api
+          image: calculator-api:latest   # Local image (built with docker build)
+          imagePullPolicy: Never         # IMPORTANT: use local image, don't pull from Docker Hub
+          ports:
+            - containerPort: 8000        # FastAPI runs on port 8000
